@@ -3,6 +3,7 @@ public class Pizzaiolo implements Runnable{
 
 	private Lista lista;
 
+
 	public Pizzaiolo(Lista lista) {
 		this.lista = lista;
 
@@ -10,7 +11,7 @@ public class Pizzaiolo implements Runnable{
 	
 	public void run() {
 		// TODO Auto-generated method stub
-		
+		lista.pizzaInLista();
 	}
 	
 

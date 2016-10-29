@@ -13,11 +13,20 @@ import org.eclipse.swt.events.SelectionEvent;
 
 public class PizzeriaHome {
 
-	public Shell shell;
+	protected Shell shell;
 	private Text txtPizza;
-
 	public Lista lista;
+	private String Pizza;
+	public List listCoda;
+	public List listCottura;
+	public int pizzeCoda = 0;
+	
+	Pizzaiolo pizzaiolo = new Pizzaiolo(lista);
+	
+	Cliente c = new Cliente(Pizza, lista);
+	Thread ThreadCliente = new Thread(c);
 
+	Lista ls = new Lista();
 
 	/**
 	 * Launch the application.
@@ -70,11 +79,13 @@ public class PizzeriaHome {
 		btnApri.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Pizzaiolo pizzaiolo = new Pizzaiolo(lista);
 				Thread pizzaiolo1 = new Thread();
 				pizzaiolo1.start();
 				Thread pizzaiolo2 = new Thread();
 				pizzaiolo2.start();
+				
+				//ls.pizzaInLista();
+				
 				System.out.println("Ho creato i due pizzaioli!");
 			}
 		});
@@ -82,6 +93,11 @@ public class PizzeriaHome {
 		btnApri.setText("Apri Pizzeria");
 		
 		Button btnChiudi = new Button(shell, SWT.NONE);
+		btnChiudi.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
 		btnChiudi.setBounds(145, 61, 89, 25);
 		btnChiudi.setText("Chiudi Pizzeria");
 		
@@ -89,7 +105,13 @@ public class PizzeriaHome {
 		btnCliente.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				lista.ordinaPizza();
+				Pizza = txtPizza.getText();
+				
+			
+				ThreadCliente.start();
+				
+				listCoda.add(Pizza);
+				pizzeCoda++;
 			}
 		});
 		btnCliente.setBounds(308, 61, 100, 25);
@@ -105,6 +127,4 @@ public class PizzeriaHome {
 		txtPizza.setBounds(185, 22, 170, 21);
 
 	}
-
-	
 }
