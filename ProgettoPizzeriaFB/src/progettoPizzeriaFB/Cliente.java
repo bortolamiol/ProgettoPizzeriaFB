@@ -12,8 +12,8 @@ public class Cliente implements Runnable {
 	
 	@Override
 	public void run() {
-		ls.ordinaPizza(Pizza);
-		
+		ls.ordinaPizza(Pizza);	
+	
 	}
 
 }

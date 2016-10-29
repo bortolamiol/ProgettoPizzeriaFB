@@ -20,13 +20,10 @@ public class PizzeriaHome {
 	public List listCoda;
 	public List listCottura;
 	public int pizzeCoda = 0;
-	
+	Lista ls = new Lista();
 	Pizzaiolo pizzaiolo = new Pizzaiolo(lista);
 	
-	Cliente c = new Cliente(Pizza, lista);
-	Thread ThreadCliente = new Thread(c);
 
-	Lista ls = new Lista();
 
 	/**
 	 * Launch the application.
@@ -107,7 +104,8 @@ public class PizzeriaHome {
 			public void widgetSelected(SelectionEvent e) {
 				Pizza = txtPizza.getText();
 				
-			
+				Cliente c = new Cliente(Pizza, lista);
+				Thread ThreadCliente = new Thread(c);
 				ThreadCliente.start();
 				
 				listCoda.add(Pizza);
