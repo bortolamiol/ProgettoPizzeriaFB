@@ -3,11 +3,15 @@ package progettoPizzeriaFB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Button;
+
+import javax.swing.JOptionPane;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
@@ -17,11 +21,10 @@ public class PizzeriaHome {
 	private Text txtPizza;
 	public Lista lista;
 	private String Pizza;
-	public List listCoda;
-	public List listCottura;
 	public int pizzeCoda = 0;
 	Lista ls = new Lista();
 	Pizzaiolo pizzaiolo = new Pizzaiolo(lista);
+	public int chiave = 0;
 	
 
 
@@ -82,7 +85,7 @@ public class PizzeriaHome {
 				pizzaiolo2.start();
 				
 				//ls.pizzaInLista();
-				
+				chiave = 1;
 				System.out.println("Ho creato i due pizzaioli!");
 			}
 		});
@@ -93,6 +96,7 @@ public class PizzeriaHome {
 		btnChiudi.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				chiave = 0;
 			}
 		});
 		btnChiudi.setBounds(145, 61, 89, 25);
@@ -102,14 +106,24 @@ public class PizzeriaHome {
 		btnCliente.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Pizza = txtPizza.getText();
+				if (chiave == 1){
+					Pizza = txtPizza.getText();
+					if (Pizza.isEmpty()){
+						JOptionPane.showMessageDialog(null, "Inserisci il nome della pizza", "ERRORE", JOptionPane.ERROR_MESSAGE);//crea il messaggio d'errore
+					}
+					else {
+						Cliente c = new Cliente(Pizza, lista);
+						Thread ThreadCliente = new Thread(c);
+						ThreadCliente.start();
+						
+						listCoda.add(Pizza);
+						pizzeCoda++;	
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Devi prima cliccare il bottone che apre la pizzeria", "ERRORE", JOptionPane.ERROR_MESSAGE);//crea il messaggio d'errore
+				}
 				
-				Cliente c = new Cliente(Pizza, lista);
-				Thread ThreadCliente = new Thread(c);
-				ThreadCliente.start();
-				
-				listCoda.add(Pizza);
-				pizzeCoda++;
 			}
 		});
 		btnCliente.setBounds(308, 61, 100, 25);
