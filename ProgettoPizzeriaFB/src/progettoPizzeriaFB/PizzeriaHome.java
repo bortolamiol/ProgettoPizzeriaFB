@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.jface.viewers.ListViewer;
 
 public class PizzeriaHome {
 	
@@ -23,10 +24,14 @@ public class PizzeriaHome {
 	public Lista lista;
 	private String Pizza;
 	public int pizzeCoda = 0;
-	Lista ls = new Lista();
+	Lista ls;
 	public int chiave = 0;
+	List listCoda;
+	List listCottura;
+	List listPronte;
+	List listConsegnate;
 	
-
+	Display display;
 
 	/**
 	 * Launch the application.
@@ -45,7 +50,7 @@ public class PizzeriaHome {
 	 * Open the window.
 	 */
 	public void open() {
-		Display display = Display.getDefault();
+		display = Display.getDefault();
 		createContents();
 		shell.open();
 		shell.layout();
@@ -55,25 +60,64 @@ public class PizzeriaHome {
 			}
 		}
 	}
+	
+	public void addPizzaInCottura(String pizza) {
+		display.asyncExec(new Runnable() {			
+			@Override
+			public void run() {
+				listCottura.add(pizza);
+				listCoda.remove(pizza);
+			}
+		});
+		
+	}
+	public void addPizzaPronta(String pizza) {
+		display.asyncExec(new Runnable() {			
+			@Override
+			public void run() {
+				listPronte.add(pizza);
+				listCottura.remove(pizza);
+			}
+		});
+		
+	}
+	
+	public void addPizzaConsegnata(String pizza) {
+		display.asyncExec(new Runnable() {			
+			@Override
+			public void run() {
+				listConsegnate.add(pizza);
+				listPronte.remove(pizza);
+			}
+		});
+		
+	}
 
 	/**
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
-		lista= new Lista();//creato la lista
+		lista= new Lista(this);//creato la lista
 		
 		shell = new Shell();
-		shell.setSize(450, 300);
+		shell.setSize(606, 337);
 		shell.setText("SWT Application");
 		
-		List listCoda = new List(shell, SWT.BORDER);
-		listCoda.setBounds(10, 93, 116, 159);
+		ListViewer listViewer = new ListViewer(shell, SWT.BORDER | SWT.V_SCROLL);
+		listCoda = listViewer.getList();
+		listCoda.setBounds(10, 123, 116, 159);
 		
-		List listCottura = new List(shell, SWT.BORDER);
-		listCottura.setBounds(145, 92, 116, 160);
+		ListViewer listViewer_1 = new ListViewer(shell, SWT.BORDER | SWT.V_SCROLL);
+		listCottura = listViewer_1.getList();
+		listCottura.setBounds(155, 123, 116, 159);
 		
-		List listPronte = new List(shell, SWT.BORDER);
-		listPronte.setBounds(308, 93, 116, 159);
+		ListViewer listViewer_2 = new ListViewer(shell, SWT.BORDER | SWT.V_SCROLL);
+		listPronte = listViewer_2.getList();
+		listPronte.setBounds(308, 123, 116, 159);
+		
+		ListViewer listViewer_3 = new ListViewer(shell, SWT.BORDER | SWT.V_SCROLL);
+		listConsegnate = listViewer_3.getList();
+		listConsegnate.setBounds(453, 123, 116, 159);
 		
 		Button btnApri = new Button(shell, SWT.NONE);
 		btnApri.addSelectionListener(new SelectionAdapter() {
@@ -91,7 +135,7 @@ public class PizzeriaHome {
 				System.out.println("Ho creato i due pizzaioli!");
 			}
 		});
-		btnApri.setBounds(10, 61, 75, 25);
+		btnApri.setBounds(10, 10, 75, 25);
 		btnApri.setText("Apri Pizzeria");
 		
 		Button btnChiudi = new Button(shell, SWT.NONE);
@@ -101,7 +145,7 @@ public class PizzeriaHome {
 				chiave = 0;
 			}
 		});
-		btnChiudi.setBounds(145, 61, 89, 25);
+		btnChiudi.setBounds(491, 10, 89, 25);
 		btnChiudi.setText("Chiudi Pizzeria");
 		
 		Button btnCliente = new Button(shell, SWT.NONE);
@@ -128,17 +172,43 @@ public class PizzeriaHome {
 				
 			}
 		});
-		btnCliente.setBounds(308, 61, 100, 25);
-		btnCliente.setText("Arriva un cliente");
+		btnCliente.setBounds(421, 50, 90, 25);
+		btnCliente.setText("Ordina pizza");
 		
 		
 		
 		Label lblInserisci = new Label(shell, SWT.NONE);
-		lblInserisci.setBounds(10, 22, 154, 15);
+		lblInserisci.setBounds(56, 55, 154, 15);
 		lblInserisci.setText("Inserisci qui la tua pizza : ");
 		
 		txtPizza = new Text(shell, SWT.BORDER);
-		txtPizza.setBounds(185, 22, 170, 21);
+		txtPizza.setBounds(216, 52, 170, 21);
+		
+		Label lblInCoda = new Label(shell, SWT.NONE);
+		lblInCoda.setBounds(10, 102, 55, 15);
+		lblInCoda.setText("In Coda");
+		
+		Label lblInCottura = new Label(shell, SWT.NONE);
+		lblInCottura.setBounds(155, 102, 55, 15);
+		lblInCottura.setText("In Cottura");
+		
+		Label lblPronte = new Label(shell, SWT.NONE);
+		lblPronte.setBounds(308, 102, 55, 15);
+		lblPronte.setText("Pronte");
+		
+		Label label = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
+		label.setBounds(0, 41, 605, 2);
+		
+		Label label_1 = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
+		label_1.setBounds(-25, 94, 615, 2);
+		
+		
+		
+		Label lblConsegnate = new Label(shell, SWT.NONE);
+		lblConsegnate.setBounds(453, 102, 75, 15);
+		lblConsegnate.setText("Consegnate");
+		
+	
 
 	}
 }
