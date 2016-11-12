@@ -12,7 +12,10 @@ public class Cliente implements Runnable {
 	
 	@Override
 	public void run() {
+		//ordina la pizza
 		ls.ordinaPizza(Pizza);	
+		//controlla se la pizza è pronta
+		ls.prelevaPizza(Pizza);
 	
 	}
 

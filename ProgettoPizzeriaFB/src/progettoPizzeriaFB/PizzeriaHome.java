@@ -16,14 +16,14 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
 public class PizzeriaHome {
-
+	
+	
 	protected Shell shell;
 	private Text txtPizza;
 	public Lista lista;
 	private String Pizza;
 	public int pizzeCoda = 0;
 	Lista ls = new Lista();
-	Pizzaiolo pizzaiolo = new Pizzaiolo(lista);
 	public int chiave = 0;
 	
 
@@ -79,12 +79,14 @@ public class PizzeriaHome {
 		btnApri.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				Thread pizzaiolo1 = new Thread();
-				pizzaiolo1.start();
-				Thread pizzaiolo2 = new Thread();
-				pizzaiolo2.start();
-				
-				//ls.pizzaInLista();
+				Pizzaiolo pizzaiolo1 = new Pizzaiolo(lista);
+				Pizzaiolo pizzaiolo2 = new Pizzaiolo(lista);
+				Thread t1 = new Thread(pizzaiolo1);
+				t1.setName("Fedato");
+				t1.start();
+				Thread t2 = new Thread(pizzaiolo2);
+				t2.setName("Bortolamiol");
+				t2.start();
 				chiave = 1;
 				System.out.println("Ho creato i due pizzaioli!");
 			}
